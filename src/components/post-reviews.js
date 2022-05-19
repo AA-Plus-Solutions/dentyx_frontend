@@ -12,6 +12,8 @@ import PropTypes from "prop-types";
 import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
 import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
 import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAltOutlined";
+import Swal from "sweetalert2";
+import Spinner from "./Spinner.js";
 
 const customIcons = {
   1: {
@@ -63,11 +65,13 @@ export default function ReviewPost(props) {
   const date = new Date();
   const [review, setReview] = React.useState(review_data);
   const [submitted, setSubmitted] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   //console.log(isMobile);
 
   //endpoint post method
   const saveReview = () => {
+    setIsLoading(true);
     let data = {
       username: review.username,
       location: {
@@ -92,11 +96,20 @@ export default function ReviewPost(props) {
 
     ReviewDataService.createReview(data)
       .then((response) => {
-        setSubmitted(true);
-        console.log(response.data);
-        console.log(data);
+        setIsLoading(false);
+        Swal.fire("Thanks!", "We appreciate your feedback", "success").then(
+          (result) => {
+            if (result) {
+              setSubmitted(true);
+              console.log(response.data);
+              console.log(data);
+              window.location.reload();
+            }
+          }
+        );
       })
       .catch((e) => {
+        setIsLoading(false);
         console.log(e);
       });
   };
@@ -117,6 +130,7 @@ export default function ReviewPost(props) {
       {
         //* titulo, ubicacion y fecha
       }
+      {isLoading && <Spinner />}
       <Grid item xs={12} paddingTop={2}>
         <Typography
           variant="h4"
