@@ -14,6 +14,7 @@ import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
 import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAltOutlined";
 import Swal from "sweetalert2";
 import Spinner from "./Spinner.js";
+import googleReviewsLogo from "./GoogleReviews.png"; // with import
 
 const customIcons = {
   1: {
@@ -68,7 +69,11 @@ export default function ReviewPost(props) {
   const [isLoading, setIsLoading] = React.useState(false);
 
   //console.log(isMobile);
-
+  const googleReviews = () => {
+    const createReviewUrl =
+      "https://search.google.com/local/writereview?placeid=ChIJx3ysQCJx14ARF2uNNckBc5A";
+    window.open(createReviewUrl, "_blank");
+  };
   //endpoint post method
   const saveReview = () => {
     setIsLoading(true);
@@ -131,7 +136,7 @@ export default function ReviewPost(props) {
         //* titulo, ubicacion y fecha
       }
       {isLoading && <Spinner />}
-      <Grid item xs={12} paddingTop={2}>
+      {/* <Grid item xs={12} paddingTop={2}>
         <Typography
           variant="h4"
           component="h4"
@@ -141,9 +146,9 @@ export default function ReviewPost(props) {
         >
           Publicar Reseña
         </Typography>
-      </Grid>
+      </Grid> */}
 
-      <Grid item xs={12} md={6}>
+      <Grid item xs={12} md={6} paddingTop={isMobile ? 1: 2}>
         <Typography
           variant="subtitle1"
           align={isMobile ? "center" : "left"}
@@ -152,7 +157,8 @@ export default function ReviewPost(props) {
           Mexicali BC, M&eacute;xico
         </Typography>
       </Grid>
-      <Grid item xs={12} md={6}>
+
+      <Grid item xs={12} md={6} paddingTop={isMobile ? 0: 2}>
         <Typography
           variant="subtitle2"
           align={isMobile ? "center" : "right"}
@@ -167,6 +173,68 @@ export default function ReviewPost(props) {
         </Typography>
       </Grid>
 
+      <Grid item xs={12}>
+        <Typography
+          variant="h4"
+          component="h4"
+          align={"center"}
+          className="titulo"
+          paddingBottom={1}
+        >
+          Leave us your review with google
+        </Typography>
+        <Button
+          onClick={googleReviews}
+          variant="outlined"
+          className="boton"
+          style={
+            isMobile
+              ? {
+                  // backgroundColor: "#0C0C34",
+                  display: "flex",
+                  margin: "auto",
+                  width: "50%",
+                  marginTop: "10%",
+                  marginBottom: "10%",
+                }
+              : {
+                  // backgroundColor: "#0C0C34",
+                  width: "20%",
+                  display: "flex",
+                  margin: "auto",
+                  padding: "15px 20px",
+                  marginTop: "4%",
+                  marginBottom: "4%",
+                }
+          }
+        >
+          {/* Google Reviews */}
+          <Box
+            component="img"
+            sx={{
+              height: "auto",
+              width: "100%",
+              // maxHeight: { xs: 233, md: 167 },
+              // maxWidth: { xs: 350, md: 250 },
+            }}
+            alt="Google Reviews ."
+            src={googleReviewsLogo}
+            // src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
+          />
+        </Button>
+      </Grid>
+
+      <Grid item xs={12}>
+        <Typography
+          variant="h4"
+          component="h4"
+          align={"center"}
+          className="titulo"
+          paddingBottom={1}
+        >
+          Or
+        </Typography>
+      </Grid>
       {
         //? inputs
       }
